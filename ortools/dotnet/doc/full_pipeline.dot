@@ -11,20 +11,29 @@ digraph Make {
     label = "Linux Host";
     node [shape=note, style="rounded,filled", color=black, fillcolor=darkviolet];
     LINUX_LIB [label="libortools.so\nruntimes/linux-x64/native/", shape=component, fillcolor=royalblue];
-    LINUX_CS [label="ortools.cs"];
+    LINUX_CSWRP [label="ortools.cs"];
+    LINUX_CPPWRP [label="ortools_csharp_wrap.cc", fillcolor=royalblue];
+    LINUX_LIBWRP [label="runtime.linux-x64.Google.OrTools.so\nruntimes/linux-x64/native", shape=component, fillcolor=royalblue];
     LINUX_CSPROJ [label="runtime.linux-x64.Google.OrTools.csproj"];
     LINUX_DLL [label="Google.OrTools.dll\nruntimes/linux-x64/lib/netstandard2.0/", shape=component];
+    LINUX_REF [label="Google.OrTools.dll\nref/netstandard2.0/", shape=component];
     LINUX_NUPKG [label="runtime.linux-x64.Google.OrTools.nupkg", shape=folder];
 
-    LINUX_LIB -> LINUX_CS [label="PInvoke", style=dashed];
-    LINUX_CS -> LINUX_CSPROJ [label="Compile", style=dashed];
+    LINUX_CPPWRP -> LINUX_LIBWRP [label="g++", style=bold];
+    LINUX_LIB -> LINUX_LIBWRP [label="ld", style=bold];
+    LINUX_LIBWRP -> LINUX_CSWRP [label="PInvoke", style=dashed];
+    LINUX_CSWRP -> LINUX_CSPROJ [label="Compile", style=dashed];
     LINUX_LIB -> LINUX_CSPROJ [label="Content", style=dashed];
+    LINUX_LIBWRP -> LINUX_CSPROJ [label="Content", style=dashed];
     LINUX_CSPROJ -> LINUX_DLL [label="dotnet build", style=bold];
+    LINUX_CSPROJ -> LINUX_REF [label="dotnet build", style=bold];
     LINUX_LIB -> LINUX_NUPKG [label="pack", style=dashed];
+    LINUX_LIBWRP -> LINUX_NUPKG [label="pack", style=dashed];
     LINUX_DLL -> LINUX_NUPKG [label="pack", style=dashed];
     LINUX_CSPROJ -> LINUX_NUPKG [label="dotnet pack", style=bold];
   }
-  SWIG -> LINUX_CS [label="swig", style=bold];
+  SWIG -> LINUX_CSWRP [label="swig", style=bold];
+  SWIG -> LINUX_CPPWRP [label="swig", style=bold];
   CPP -> LINUX_LIB [label="make_cc", style=bold];
 
   subgraph clusterOsx {
@@ -32,20 +41,29 @@ digraph Make {
     label = "macOS Host";
     node [shape=note, style="rounded,filled", color=black, fillcolor=darkviolet];
     OSX_LIB [label="libortools.dylib\nruntimes/osx-x64/native/", shape=component, fillcolor=royalblue];
-    OSX_CS [label="ortools.cs"];
+    OSX_CSWRP [label="ortools.cs"];
+    OSX_CPPWRP [label="ortools_csharp_wrap.cc", fillcolor=royalblue];
+    OSX_LIBWRP [label="runtime.osx-x64.Google.OrTools.so\nruntimes/osx-x64/native", shape=component, fillcolor=royalblue];
     OSX_CSPROJ [label="runtime.osx-x64.Google.OrTools.csproj"];
     OSX_DLL [label="Google.OrTools.dll\nruntimes/osx-x64/lib/netstandard2.0/", shape=component];
+    OSX_REF [label="Google.OrTools.dll\nref/netstandard2.0/", shape=component];
     OSX_NUPKG [label="runtime.osx-x64.Google.OrTools.nupkg", shape=folder];
 
-    OSX_LIB -> OSX_CS [label="PInvoke", style=dashed];
-    OSX_CS -> OSX_CSPROJ [label="Compile", style=dashed];
+    OSX_CPPWRP -> OSX_LIBWRP [label="g++", style=bold];
+    OSX_LIB -> OSX_LIBWRP [label="ld", style=bold];
+    OSX_LIBWRP -> OSX_CSWRP [label="PInvoke", style=dashed];
+    OSX_CSWRP -> OSX_CSPROJ [label="Compile", style=dashed];
     OSX_LIB -> OSX_CSPROJ [label="Content", style=dashed];
+    OSX_LIBWRP -> OSX_CSPROJ [label="Content", style=dashed];
     OSX_CSPROJ -> OSX_DLL [label="dotnet build", style=bold];
+    OSX_CSPROJ -> OSX_REF [label="dotnet build", style=bold];
     OSX_LIB -> OSX_NUPKG [label="pack", style=dashed];
+    OSX_LIBWRP -> OSX_NUPKG [label="pack", style=dashed];
     OSX_DLL -> OSX_NUPKG [label="pack", style=dashed];
     OSX_CSPROJ -> OSX_NUPKG [label="dotnet pack", style=bold];
   }
-  SWIG -> OSX_CS [label="swig", style=bold];
+  SWIG -> OSX_CSWRP [label="swig", style=bold];
+  SWIG -> OSX_CPPWRP [label="swig", style=bold];
   CPP -> OSX_LIB [label="make_cc", style=bold];
 
   subgraph clusterWin {
@@ -53,20 +71,29 @@ digraph Make {
     label = "Windows Host";
     node [shape=note, style="rounded,filled", color=black, fillcolor=darkviolet];
     WIN_LIB [label="libortools.dll\nruntimes/win-x64/native/", shape=component, fillcolor=royalblue];
-    WIN_CS [label="ortools.cs"];
+    WIN_CSWRP [label="ortools.cs"];
+    WIN_CPPWRP [label="ortools_csharp_wrap.cc", fillcolor=royalblue];
+    WIN_LIBWRP [label="runtime.win-x64.Google.OrTools.so\nruntimes/win-x64/native", shape=component, fillcolor=royalblue];
     WIN_CSPROJ [label="runtime.win-x64.Google.OrTools.csproj"];
     WIN_DLL [label="Google.OrTools.dll\nruntimes/win-x64/lib/netstandard2.0/", shape=component];
+    WIN_REF [label="Google.OrTools.dll\nref/netstandard2.0/", shape=component];
     WIN_NUPKG [label="runtime.win-x64.Google.OrTools.nupkg", shape=folder];
 
-    WIN_LIB -> WIN_CS [label="PInvoke", style=dashed];
-    WIN_CS -> WIN_CSPROJ [label="Compile", style=dashed];
+    WIN_CPPWRP -> WIN_LIBWRP [label="g++", style=bold];
+    WIN_LIB -> WIN_LIBWRP [label="ld", style=bold];
+    WIN_LIBWRP -> WIN_CSWRP [label="PInvoke", style=dashed];
+    WIN_CSWRP -> WIN_CSPROJ [label="Compile", style=dashed];
     WIN_LIB -> WIN_CSPROJ [label="Content", style=dashed];
+    WIN_LIBWRP -> WIN_CSPROJ [label="Content", style=dashed];
     WIN_CSPROJ -> WIN_DLL [label="dotnet build", style=bold];
+    WIN_CSPROJ -> WIN_REF [label="dotnet build", style=bold];
     WIN_LIB -> WIN_NUPKG [label="pack", style=dashed];
+    WIN_LIBWRP -> WIN_NUPKG [label="pack", style=dashed];
     WIN_DLL -> WIN_NUPKG [label="pack", style=dashed];
     WIN_CSPROJ -> WIN_NUPKG [label="dotnet pack", style=bold];
   }
-  SWIG -> WIN_CS [label="swig", style=bold];
+  SWIG -> WIN_CSWRP [label="swig", style=bold];
+  SWIG -> WIN_CPPWRP [label="swig", style=bold];
   CPP -> WIN_LIB [label="make_cc", style=bold];
 
   subgraph clusterAny {
@@ -78,9 +105,9 @@ digraph Make {
     FOO_CSPROJ [label="Google.OrTools.csproj"];
     FOO_NUPKG [label="Google.OrTools.nupkg", shape=folder];
 
-    LINUX_CSPROJ -> FOO_REF [label="dotnet build", style=bold];
-    OSX_CSPROJ -> FOO_REF [label="dotnet build", style=bold];
-    WIN_CSPROJ -> FOO_REF [label="dotnet build", style=bold];
+    LINUX_REF -> FOO_REF [label="copy", style=bold];
+    OSX_REF -> FOO_REF [label="copy", style=bold];
+    WIN_REF -> FOO_REF [label="copy", style=bold];
     FOO_REF -> FOO_CSPROJ [label="Content", style=dashed];
     FOO_RT -> FOO_CSPROJ [label="Content", style=dashed];
     FOO_CSPROJ -> FOO_NUPKG [label="dotnet pack", style=bold];

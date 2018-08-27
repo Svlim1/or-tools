@@ -11,20 +11,27 @@ digraph Make {
 
     node [shape=note, style="rounded,filled", color=black, fillcolor=darkviolet];
     LINUX_LIB [label="libortools.so\nruntimes/linux-x64/native", shape=component, fillcolor=royalblue];
-    LINUX_CS [label="ortools.cs"];
+    LINUX_CSWRP [label="ortools.cs"];
+    LINUX_CPPWRP [label="ortools_csharp_wrap.cc", fillcolor=royalblue];
+    LINUX_LIBWRP [label="runtime.linux-x64.Google.OrTools.so\nruntimes/linux-x64/native", shape=component, fillcolor=royalblue];
     LINUX_CSPROJ [label="runtime.linux-x64.Google.OrTools.csproj"];
     LINUX_DLL [label="Google.OrTools.dll\nruntimes/linux-x64/lib/netstandard2.0/", shape=component];
     LINUX_NUPKG [label="runtime.linux-x64.Google.OrTools.nupkg", shape=folder];
 
-    LINUX_LIB -> LINUX_CS [label="PInvoke", style=dashed];
-    LINUX_CS -> LINUX_CSPROJ [label="Compile", style=dashed];
+    LINUX_CPPWRP -> LINUX_LIBWRP [label="g++", style=bold];
+    LINUX_LIB -> LINUX_LIBWRP [label="ld", style=bold];
+    LINUX_LIBWRP -> LINUX_CSWRP [label="PInvoke", style=dashed];
+    LINUX_CSWRP -> LINUX_CSPROJ [label="Compile", style=dashed];
     LINUX_LIB -> LINUX_CSPROJ [label="Content", style=dashed];
+    LINUX_LIBWRP -> LINUX_CSPROJ [label="Content", style=dashed];
     LINUX_CSPROJ -> LINUX_DLL [label="dotnet build", style=bold];
     LINUX_LIB -> LINUX_NUPKG [label="pack", style=dashed];
+    LINUX_LIBWRP -> LINUX_NUPKG [label="pack", style=dashed];
     LINUX_DLL -> LINUX_NUPKG [label="pack", style=dashed];
     LINUX_CSPROJ -> LINUX_NUPKG [label="dotnet pack", style=bold];
 
-    SWIG -> LINUX_CS [label="swig", style=bold];
+    SWIG -> LINUX_CSWRP [label="swig", style=bold];
+    SWIG -> LINUX_CPPWRP [label="swig", style=bold];
     CPP -> LINUX_LIB [label="make_cc", style=bold];
 
     node [shape=note, style="rounded,filled", color=black, fillcolor=darkviolet];
