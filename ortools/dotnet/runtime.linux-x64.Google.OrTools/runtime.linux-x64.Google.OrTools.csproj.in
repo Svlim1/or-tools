@@ -72,7 +72,7 @@
       <Pack>true</Pack>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="../../../lib/libortools.so">
+    <Content Include="../../../lib/runtime.linux-x64.Google.OrTools.so; ../../../lib/libortools.so">
       <PackagePath>runtimes/linux-x64/native/%(Filename)%(Extension)</PackagePath>
       <Pack>true</Pack>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
