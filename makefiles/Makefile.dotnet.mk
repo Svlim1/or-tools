@@ -28,12 +28,12 @@ endif
 TEMP_DOTNET_DIR=temp_dotnet
 
 DOTNET_EXAMPLES = \
-$(TEMP_DOTNET_DIR)/tsp$D
-#$(BIN_DIR)/a_puzzle$D \
-#$(BIN_DIR)/Program$D
+$(TEMP_DOTNET_DIR)/tsp$D \
+$(TEMP_DOTNET_DIR)/a_puzzle$D \
+#$(TEMP_DOTNET_DIR)/Program$D
 
 DOTNET_TESTS = \
-#$(BIN_DIR)/algorithms_test$D
+#$(TEMP_DOTNET_DIR)/algorithms_test$D
 
 # Main target
 .PHONY: dotnet # Build OrTools for .NET
@@ -396,22 +396,20 @@ $(TEMP_DOTNET_DIR)/%$D: \
  $(DOTNET_ORTOOLS_NUPKG) \
  | $(TEMP_DOTNET_DIR)
 	"$(DOTNET_BIN)" build \
- -r $(RUNTIME_IDENTIFIER) \
  -o "..$S..$S..$S$(TEMP_DOTNET_DIR)" \
  $(DOTNET_EX_PATH)$Scsharp$S$*.csproj
 
-$(BIN_DIR)/%$D: \
+$(TEMP_DOTNET_DIR)/%$D: \
  $(DOTNET_EX_DIR)/fsharp/%.fsproj \
  $(DOTNET_EX_DIR)/fsharp/%.fs \
  $(DOTNET_ORTOOLS_FSHARP_NUPKG) \
  | $(BIN_DIR)
 	"$(DOTNET_BIN)" build \
- -r $(RUNTIME_IDENTIFIER) \
  -o "..$S..$S..$S$(TEMP_DOTNET_DIR)" \
  $(DOTNET_EX_PATH)$Sfsharp$S$*.fsproj
 
-rdotnet_%: $(BIN_DIR)/%$D
-	"$(DOTNET_BIN)" run $* $(ARGS)
+rdotnet_%: $(TEMP_DOTNET_DIR)/%$D
+	"$(DOTNET_BIN)" run --project $(DOTNET_EX_PATH)$Scsharp$S$*.csproj -- $(ARGS)
 
 ################
 ##  Cleaning  ##
