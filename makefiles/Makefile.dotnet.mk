@@ -87,16 +87,10 @@ DOTNET_ORTOOLS_NUPKG := $(PACKAGE_DIR)/$(OR_TOOLS_ASSEMBLY_NAME).$(OR_TOOLS_VERS
 DOTNET_ORTOOLS_NATIVE_NUPKG := $(PACKAGE_DIR)/$(OR_TOOLS_NATIVE_ASSEMBLY_NAME).$(OR_TOOLS_VERSION).nupkg
 DOTNET_ORTOOLS_FSHARP_NUPKG := $(PACKAGE_DIR)/$(OR_TOOLS_FSHARP_ASSEMBLY_NAME).$(OR_TOOLS_VERSION).nupkg
 
-PROTOBUF_ASSEMBLY_NAME := Google.Protobuf
-DOTNET_PROTOBUF_LIBS = $(BIN_DIR)/$(PROTOBUF_ASSEMBLY_NAME)$D
-
 .PHONY: csharp_dotnet # Build C# OR-Tools
 csharp_dotnet: $(DOTNET_ORTOOLS_NUPKG)
 
 # Protobufs generated code
-$(DOTNET_PROTOBUF_LIBS): tools/dotnet/$(PROTOBUF_ASSEMBLY_NAME)$D | $(BIN_DIR)
-	$(COPY) tools$Sdotnet$S$(PROTOBUF_ASSEMBLY_NAME)$D $(BIN_DIR)
-
 $(GEN_DIR)/ortools/constraint_solver/SearchLimit.pb.cs: \
  $(SRC_DIR)/ortools/constraint_solver/search_limit.proto \
  | $(GEN_DIR)/ortools/constraint_solver
@@ -351,7 +345,6 @@ $(SRC_DIR)/ortools/dotnet/$(OR_TOOLS_ASSEMBLY_NAME)/runtime.json: \
 
 $(DOTNET_ORTOOLS_NUPKG): \
  $(DOTNET_ORTOOLS_NATIVE_NUPKG) \
- $(DOTNET_PROTOBUF_LIBS) \
  $(SRC_DIR)/ortools/dotnet/$(OR_TOOLS_ASSEMBLY_NAME)/$(OR_TOOLS_ASSEMBLY_NAME).csproj \
  $(SRC_DIR)/ortools/dotnet/$(OR_TOOLS_ASSEMBLY_NAME)/runtime.json \
  | $(PACKAGE_DIR)
@@ -450,7 +443,6 @@ clean_dotnet:
 	-$(DEL) $(GEN_PATH)$Sortools$Ssat$S*.cs
 	-$(DEL) $(GEN_PATH)$Sortools$Ssat$S*csharp_wrap*
 	-$(DEL) $(OBJ_DIR)$Sswig$S*_csharp_wrap.$O
-	-$(DEL) $(BIN_DIR)$S$(PROTOBUF_ASSEMBLY_NAME).*
 	-$(DEL) $(LIB_DIR)$S$(OR_TOOLS_NATIVE_ASSEMBLY_NAME).*
 	-$(DEL) $(BIN_DIR)$S$(OR_TOOLS_ASSEMBLY_NAME).*
 	-$(DEL) $(BIN_DIR)$S$(OR_TOOLS_FSHARP_ASSEMBLY_NAME).*
@@ -492,8 +484,6 @@ detect_dotnet:
 	@echo DOTNET_BIN = $(DOTNET_BIN)
 	@echo NUGET_BIN = $(NUGET_BIN)
 	@echo PROTOC = $(PROTOC)
-	@echo PROTOBUF_ASSEMBLY_NAME = $(PROTOBUF_ASSEMBLY_NAME)
-	@echo DOTNET_PROTOBUF_LIBS = $(DOTNET_PROTOBUF_LIBS)
 	@echo DOTNET_ORTOOLS_SNK = $(DOTNET_ORTOOLS_SNK)
 	@echo SWIG_DOTNET_LIB_SUFFIX = $(SWIG_DOTNET_LIB_SUFFIX)
 	@echo OR_TOOLS_NATIVE_ASSEMBLY_NAME = $(OR_TOOLS_NATIVE_ASSEMBLY_NAME)
